@@ -105,6 +105,80 @@ app/src/androidTest/           # instrumented Compose UI tests
 gradle/libs.versions.toml      # version catalog — dependency versions live here
 ```
 
+## Roadmap
+
+Only the work owned by **this** repo is listed. Item numbers refer to `TAWI-Development-Phases.md`.
+Each phase is a separate commit here, prefixed with its phase number, and a phase is not done until
+its exit gate is met on this platform — exit gates are evaluated per platform, so Android can pass
+while iOS is still failing.
+
+- [x] **Phase 1 — Repo scaffolding & CI baseline** (1.3, 1.5–1.6, 1.8, 1.10)
+      Compose placeholder screen, instrumented launch test, CI, this README.
+
+- [ ] **Phases 2 and 3 — no Android work.** Accounts/roles and the server-side AI pipeline are
+      backend-only. This repo stays untouched; it just gains an API contract to build against.
+
+- [ ] **Phase 4 — Audio capture + backend connection** *(needs a reachable `/process-audio`)*
+  - 4.2 Wired-earphone audio capture via the `AudioRecord` API, send to backend, render the
+    returned transcript
+  - 4.4 Auth: login screen and token storage against Phase 2 backend accounts
+  - 4.5 Role-aware navigation shell (Listener view vs. Caregiver/Teacher placeholder view)
+  - 4.6–4.8 Tests: 5 seconds of speech with wired earphones produces an on-screen transcript;
+    token survives app restart and expiry forces re-login; device matrix confirming wired-earphone
+    input is prioritized over the built-in mic on 2–3 representative devices
+  - *Exit gate 4.9: a real conversation into wired earphones produces an on-screen transcript
+    end-to-end against the live backend*
+
+- [ ] **Phase 5 — Real-time mode**
+  - 5.3 Stream audio and consume incremental transcript chunks
+  - 5.4 Live caption UI updating as chunks arrive, with phoneme-clarity highlighting
+  - 5.5 Waveform visual feedback component
+  - 5.6–5.8 Tests: spoken-word-to-caption latency (~1s target, measured end-to-end across all three
+    repos); 10-minute continuous conversation with no dropped connection or memory leak (profiled);
+    manual check that highlighted words match the corrected audio
+
+- [ ] **Phase 6 — Offline / on-device mode** *(flagged as the hardest problem in the PRD)*
+  - 6.2 Spike: evaluate on-device options (quantized Whisper variants, mobile noise suppression)
+    on mid-range hardware; document accuracy/latency trade-offs vs. server-side
+  - 6.3 Lightweight on-device pipeline: basic noise suppression + short-buffer transcription
+  - 6.4 Local session queuing
+  - 6.6 Offline/online and sync-status UI indicator
+  - 6.7–6.9 Tests: WER and latency on a minimum-spec **and** a mid/high-spec device; airplane-mode
+    capture then correct sync; force-kill mid-session with no data loss on relaunch
+
+- [ ] **Phase 7 — Accessibility & consent hardening** *(baseline, not an add-on)*
+  - 7.2 TalkBack labels across all screens
+  - 7.3 High-contrast mode and dyslexia-friendly font toggle
+  - 7.4 Tap-target audit against Android accessibility guidelines
+  - 7.5 COPPA/GDPR-style consent flow at signup for minors; data retention settings screen
+  - 7.7, 7.9 Tests: Android Accessibility Scanner clean on all core screens; manual
+    screen-reader-only walkthrough of record → transcript → history
+
+- [ ] **Phase 8 — Caregiver/therapist dashboards & sharing**
+  - 8.2 Caregiver/Teacher dashboard: session history, progress indicators
+  - 8.3 Adult-user therapist-sharing flow
+  - 8.5 Test: dashboard reflects a session recorded on the Listener's device within an acceptable
+    sync delay
+
+- [ ] **Phase 9 — Async mode & gamification**
+  - 9.3 Async record → process → review flow, including edit/correct-transcript
+  - 9.5 Gamification (streaks, badges, progress), feature-flagged so it can be hidden for adults
+  - 9.6, 9.8 Tests: async result appears in the review UI with correct transcript/audio; streak
+    counter increments/resets correctly across day boundaries and timezones
+
+- [ ] **Phase 10 — Monetization & entitlements**
+  - 10.3 Google Play Billing, paywall/upsell touchpoints, restore-purchase flow
+  - 10.6 Test: purchase, renewal, cancellation and restore all update entitlement state in sandbox
+    billing (server-side enforcement lives in the backend — never trust the client)
+
+- [ ] **Phase 11 — Beta hardening & launch readiness**
+  - 11.2 Full end-to-end regression pass with the other two repos
+  - 11.3 Performance/battery profiling during extended real-time use
+  - 11.4 Privacy-respecting crash reporting and analytics, consistent with Phase 7 consent settings
+  - 11.5 Beta feedback loop: in-app FAQ + feedback form
+  - 11.6–11.8 Tests: regression suite green independently; battery drain over a 30–60 minute
+    real-time session within budget; pilot dry run with 5–10 users
+
 ## Project docs
 
 The PRD (`TAWI-Redesign-PRD.md`) and the phased plan (`TAWI-Development-Phases.md`) live in the
