@@ -15,15 +15,15 @@ phases.
 
 ## Stack
 
-| Concern | Choice |
-|---|---|
-| Language | Kotlin |
-| UI | Jetpack Compose (Material 3), Compose BOM `2026.02.01` |
-| Build | Gradle 9.6.0 (wrapper), AGP 9.4.0 |
-| SDK | `compileSdk`/`targetSdk` 37, `minSdk` 24 |
-| JDK | 25 (auto-provisioned by the Gradle daemon toolchain) |
-| Application id | `dev.mabeya.tawi` |
-| Tests | JUnit 4 (JVM), AndroidX Test + Compose UI test (instrumented) |
+| Concern        | Choice                                                        |
+|----------------|---------------------------------------------------------------|
+| Language       | Kotlin                                                        |
+| UI             | Jetpack Compose (Material 3), Compose BOM `2026.02.01`        |
+| Build          | Gradle 9.6.0 (wrapper), AGP 9.4.0                             |
+| SDK            | `compileSdk`/`targetSdk` 37, `minSdk` 24                      |
+| JDK            | 25 (auto-provisioned by the Gradle daemon toolchain)          |
+| Application id | `dev.mabeya.tawi`                                             |
+| Tests          | JUnit 4 (JVM), AndroidX Test + Compose UI test (instrumented) |
 
 ## Prerequisites
 
@@ -95,7 +95,7 @@ Note for anyone editing CI: AGP 9 uses minor-versioned SDK platform ids, so the 
 
 ## Layout
 
-```
+```text
 app/src/main/java/dev/mabeya/tawi/
   MainActivity.kt              # launcher activity, hosts the Compose tree
   ui/PlaceholderScreen.kt      # Phase 1 placeholder screen + shared test tags
