@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TAWI</string>
+    <string name="placeholder_headline">TAWI</string>
+    <string name="placeholder_tagline">Clearer speech, in real time. Setup coming soon.</string>
 </resources>
